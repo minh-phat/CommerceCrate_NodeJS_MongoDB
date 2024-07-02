@@ -1,0 +1,30 @@
+{
+  "name": "be-training",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "ts-node -r tsconfig-paths/register src/index.ts", 
+    "start": "ts-node -r tsconfig-paths/register src/index.ts",
+    "build": "tsc -p tsconfig.json && tsc-alias -p tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/express": "^4.17.21",
+    "@types/mongodb": "^4.0.7",
+    "@types/node": "^20.14.5",
+    "ts-node": "^10.9.2",
+    "tsc-alias": "^1.8.10",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "mongodb": "^6.7.0",
+    "mongoose": "^8.4.4"
+  }
+}

@@ -1,0 +1,1 @@
+export const STAR_RATING_3 = 3
