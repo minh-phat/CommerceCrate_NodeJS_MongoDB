@@ -1,11 +1,13 @@
 import { ObjectId } from "mongodb";
-import { IUser } from "./User_Interface";
+// import { IUser } from "./User_Interface";
 
 export interface IComment {
-    _id: ObjectId,
-    user_Id: IUser["_id"],
-    comment_Id: IComment["_id"],
-    comment: string,
-    image: string,
-    replies?: IComment[];
+  _id: ObjectId;
+  user_id: ObjectId;
+  comment: string;
+  comment_lv1: IComment[];
+  comment_lv2: IComment[];
+  comment_lv3: IComment[];
+  images: string[];
+  replyToReview?: ObjectId;
 }

@@ -1,10 +1,12 @@
-import { ObjectId } from 'mongodb';
+import { ObjectId } from "mongodb";
 
 export interface IShop {
-    _id: ObjectId,
-    name: string,
-    status: string,
-    images: string[],
-    createdAt?: Date;
-    updatedAt?: Date;
+  _id: ObjectId;
+  name: string;
+  status: string;
+  address?: string;
+  logo_image: string;
+  payment_id?: ObjectId;
+  createdAt?: Date;
+  updatedAt?: Date;
 }

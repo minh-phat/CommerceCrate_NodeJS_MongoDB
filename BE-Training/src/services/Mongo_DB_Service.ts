@@ -1,30 +1,59 @@
-import { MongoClient } from "mongodb";
-// const mongoUrl = process.env.MONGO_URL || "mongodb://localhost:27017";
+import mongoose, { ConnectOptions, Document, Model } from "mongoose";
 
-class MongoDatabase {
-  private client: MongoClient;
-  private dbName: string;
-  private mongoUrl: string;
+class ConnectDB {
+	private connectionString: string;
+	private options: ConnectOptions;
 
-  constructor(mongoUrl: string, dbName: string) {
-    this.mongoUrl = mongoUrl;
-    this.dbName = dbName;
-    this.client = new MongoClient(this.mongoUrl);
-  }
+	constructor(connectionString?: string) {
+		this.connectionString =
+			connectionString ??
+			(process.env.MONGO_URL || "mongodb://localhost:27017/mydatabase");
+		this.options = {
+			serverSelectionTimeoutMS: 30000, // 30 giây
+			socketTimeoutMS: 45000, // 45 giây
+		};
+	}
 
-  public async connect(): Promise<void> {
-    try {
-      await this.client.connect();
-      console.log("Connected to the database");
-    } catch (err) {
-      console.error("Failed to connect to the database", err);
-      process.exit(1);
-    }
-  }
+	async connect(): Promise<void> {
+		try {
+			await mongoose.connect(this.connectionString, this.options);
+			console.log("Kết nối tới cơ sở dữ liệu thành công");
+		} catch (err) {
+			console.error("Lỗi kết nối cơ sở dữ liệu:", err);
+			throw err;
+		}
+	}
 
-  public getDb() {
-    return this.client.db(this.dbName);
-  }
+	async disconnect(): Promise<void> {
+		try {
+			await mongoose.disconnect();
+			console.log("Ngắt kết nối cơ sở dữ liệu thành công");
+		} catch (err) {
+			console.error("Lỗi ngắt kết nối cơ sở dữ liệu:", err);
+			throw err;
+		}
+	}
+
+	async insertMany<T extends Document>(
+		model: Model<T>,
+		documents: T[],
+		retries = 3
+	): Promise<void> {
+		try {
+			const result = await model.insertMany(documents);
+			console.log(`${result.length} tài liệu đã được chèn thành công`);
+		} catch (error) {
+			if (retries > 0) {
+				console.log(
+					`Thử lại thao tác chèn. Số lần thử lại còn lại: ${retries}`
+				);
+				await this.insertMany(model, documents, retries - 1);
+			} else {
+				console.error("Lỗi khi chèn tài liệu:", error);
+				throw error;
+			}
+		}
+	}
 }
 
-export default MongoDatabase;
+export default ConnectDB;

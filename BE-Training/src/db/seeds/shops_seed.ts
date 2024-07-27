@@ -22,8 +22,10 @@ export function createRandomShops(): IShop {
     return {
         _id: new ObjectId(),
         name: faker.company.name(),
+        address: faker.location.direction(),
         status: getRandomShopState(SHOP_STATE),
-        images: getRandomImage()
+        logo_image: faker.image.avatar(),
+        
     };
 }
 

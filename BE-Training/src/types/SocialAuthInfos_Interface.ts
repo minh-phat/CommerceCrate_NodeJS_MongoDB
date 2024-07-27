@@ -1,4 +1,5 @@
 export interface ISocialAuthInfos {
-    googleId: string,
-    facebookId: string
+  googleId: string;
+  facebookId: string;
+  tiktokId: string;
 }

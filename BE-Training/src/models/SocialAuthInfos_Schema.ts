@@ -7,6 +7,9 @@ export const socialAuthInfosSchema: Schema<ISocialAuthInfos> = new Schema({
     },
     facebookId: {
         type: String,
+    },
+    tiktokId: {
+        type: String
     }
 });
 
